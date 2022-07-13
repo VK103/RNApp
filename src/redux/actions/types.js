@@ -1,0 +1,2 @@
+export const NETWORK_CONNECTED = 'NETWORK_CONNECTED';
+export const RESET_STORE = 'RESET_STORE';
