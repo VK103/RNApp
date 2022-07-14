@@ -15,6 +15,7 @@ import Cards from '../screen/cards/cards';
 import Settings from '../screen/settings/settings';
 import InboxList from '../screen/home/inbox/inboxList';
 import InboxDetails from '../screen/home/inbox/inboxDetails';
+import StoreSettings from '../screen/store/storeSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ function MainNavigator() {
                 screenOptions={{
                     headerShown: false,
                 }}
+            // initialRouteName="HomeTab"
             >
                 <Stack.Screen name="Splash" component={Splash} />
                 <Stack.Screen name="Login" component={Login} />
@@ -73,7 +75,7 @@ function MyTab() {
             })}
         >
             <Tab.Screen name="Inbox" component={MyInboxTab} />
-            <Tab.Screen name="Stores" component={Stores} />
+            <Tab.Screen name="Stores" component={MyStoreTab} />
             <Tab.Screen name="Cards" component={Cards} />
             <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator>
@@ -89,6 +91,22 @@ function MyInboxTab() {
             }}
         >
             <Stack.Screen name="Inbox" component={Home} />
+            <Stack.Screen name="InboxList" component={InboxList} />
+            <Stack.Screen name="StoreSettings" component={StoreSettings} />
+        </Stack.Navigator>
+    );
+}
+
+function MyStoreTab() {
+    return (
+
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen name="Stores" component={Stores} />
+            <Stack.Screen name="StoreSettings" component={StoreSettings} />
             <Stack.Screen name="InboxList" component={InboxList} />
         </Stack.Navigator>
     );

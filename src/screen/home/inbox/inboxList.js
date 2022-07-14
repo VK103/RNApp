@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { Header } from '../../../common';
+import { homeMenuList } from '../../../constant/menuList';
 import { color } from '../../../constant/theme'
 
 import globleString from '../../../language/localized';
@@ -26,6 +27,15 @@ class InboxList extends Component {
             ]
         }
     }
+
+    onPressMenuItem = (data) => {
+        if (data?.id == 2 || data?.id == 3) {
+            this.props.navigation.navigate('InboxList', {
+                title: data?.title
+            })
+        }
+    }
+
     render() {
         const { title } = this.props.route.params
         const { itemList } = this.state
@@ -35,6 +45,8 @@ class InboxList extends Component {
                     title={title}
                     showRightIcon={true}
                     showBack={true}
+                    menuList={homeMenuList}
+                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <FlatList
                     data={itemList}
@@ -50,6 +62,8 @@ class InboxList extends Component {
                                     details: item
                                 })
                             }}
+                            disableRightSwipe={title == 'Deleted' || title == 'Bookmark'}
+                            disableLeftSwipe={title == 'Deleted' || title == 'Bookmark'}
                         />
                     }}
                 />

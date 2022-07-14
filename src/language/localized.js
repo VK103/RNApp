@@ -17,7 +17,11 @@ const strings = new LocalizedStrings({
 
     // Stores
     Stores: 'Stores',
-
+    Category: 'Category',
+    Country: 'Country',
+    Region: 'Region',
+    City: 'City',
+    FindStores: 'Find stores',
     // Cards
     Cards: 'Cards',
 

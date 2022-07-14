@@ -6,6 +6,7 @@ import { AppIcon, Header } from '../../common'
 import globleString from '../../language/localized';
 import moment from 'moment';
 import { HomeMenu } from './dropdown/homeMenu';
+import { homeMenuList } from '../../constant/menuList';
 const strings = globleString.strings
 
 class Home extends Component {
@@ -32,14 +33,28 @@ class Home extends Component {
             headerHeight: 50
         }
     }
+
+    onPressMenuItem = (data) => {
+        if (data?.id == 2 || data?.id == 3) {
+            this.props.navigation.navigate('InboxList', {
+                title: data?.title
+            })
+        } else if (data?.id == 5) {
+            this.props.navigation.navigate('StoreSettings', {
+                title: data?.title
+            })
+        }
+    }
+
     render() {
         const { inboxList, headerHeight } = this.state
         return (
             <View style={styles.container}>
                 <Header
                     title={strings.AppName}
-                    // rightContainer={<HomeMenu height={headerHeight} />}
                     showRightIcon={true}
+                    menuList={homeMenuList}
+                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <FlatList
                     data={inboxList}

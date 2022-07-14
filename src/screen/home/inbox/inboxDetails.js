@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import { Header } from '../../../common';
+import { homeMenuList } from '../../../constant/menuList';
 import { color, fontSize, responsiveHeight, responsiveWidth } from '../../../constant/theme'
 
 import globleString from '../../../language/localized';
@@ -15,6 +16,15 @@ class InboxDetails extends Component {
 
         }
     }
+
+    onPressMenuItem = (data) => {
+        if (data?.id == 2 || data?.id == 3) {
+            this.props.navigation.navigate('InboxList', {
+                title: data?.title
+            })
+        }
+    }
+
     render() {
         const { title, details } = this.props.route.params
         return (
@@ -23,6 +33,8 @@ class InboxDetails extends Component {
                     title={title}
                     showRightIcon={true}
                     showBack={true}
+                    menuList={homeMenuList}
+                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <ScrollView
                     bounces={false}

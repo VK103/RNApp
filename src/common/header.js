@@ -12,14 +12,17 @@ const Header = ({
     showBack,
     titleText,
     container,
-    onLayout,
     leftContainerStyle,
     middleContainerStyle,
     rightContainerStyle,
     hanldeGoBack,
-    onPressRight,
     rightIconName,
-    showRightIcon
+    showRightIcon,
+    customIcon,
+    onPressCustomIcon,
+    menuList,
+    onPressItem,
+    getHeaderHeight
 }) => {
     const { goBack } = useNavigation()
     const [headerHeight, setHeaderHeight] = useState(50)
@@ -28,6 +31,7 @@ const Header = ({
         <SafeAreaView onLayout={(event) => {
             var { x, y, width, height } = event.nativeEvent.layout;
             setHeaderHeight(height)
+            getHeaderHeight ? getHeaderHeight(height) : null
         }}
             style={{ backgroundColor: color.darkBlue }}>
             <StatusBar barStyle='light-content' backgroundColor={color.darkBlue} />
@@ -60,7 +64,15 @@ const Header = ({
                             >
                                 <AppIcon name={rightIconName || 'bars'} color={color.white} size={responsiveWidth('5%')} />
                             </TouchableOpacity>
-                            : null}</>
+                            : <>{
+                                customIcon ?
+                                    <TouchableOpacity
+                                        onPress={onPressCustomIcon}
+                                        style={{ padding: responsiveWidth('1%') }}
+                                    >
+                                        <AppIcon name={customIcon || 'bars'} color={color.white} size={responsiveWidth('5%')} />
+                                    </TouchableOpacity> : null
+                            }</>}</>
                 }</View>
             </View>
 
@@ -81,6 +93,31 @@ const Header = ({
                 >
                     <TouchableWithoutFeedback>
                         <View style={[styles.menuContainer, { top: headerHeight }]}>
+                            {menuList && Array.isArray(menuList) ? menuList.map((i, index) => {
+                                return (
+                                    <TouchableOpacity
+                                        key={index.toString()}
+                                        onPress={() => {
+                                            setShowMenu(false)
+                                            setTimeout(() => {
+                                                onPressItem(i)
+                                            }, 80);
+                                        }}
+                                        style={styles.itemContainer}
+                                        activeOpacity={0.5}
+                                    >
+                                        <Text style={styles.menuItemtitleStyle}>{i.title} {i.count > 0 ? `(${i?.count})` : ''}</Text>
+                                        <AppIcon
+                                            name={'chevron-right'}
+                                            size={responsiveWidth('6')}
+                                            type={'material-community'}
+                                            style={{
+                                                left: responsiveWidth('2')
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                )
+                            }) : null}
                         </View>
                     </TouchableWithoutFeedback>
                 </TouchableOpacity>
@@ -125,5 +162,16 @@ const styles = StyleSheet.create({
     modalContainer: {
         height: '100%',
         width: '100%'
+    },
+    menuItemtitleStyle: {
+        flex: 1,
+        paddingRight: responsiveWidth("4"),
+        fontSize: fontSize.regularx
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        padding: responsiveWidth('4'),
+        borderBottomColor: color.lightgray,
+        borderBottomWidth: 1
     }
 })

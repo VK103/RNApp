@@ -10,7 +10,9 @@ const SwipeableItem = ({
     data,
     onPress,
     onPressDelete,
-    onPressBookmark
+    onPressBookmark,
+    disableLeftSwipe,
+    disableRightSwipe
 }) => {
     return (
         <View style={styles.container}>
@@ -21,6 +23,8 @@ const SwipeableItem = ({
                 stopRightSwipe={-responsiveWidth('22')}
                 useNativeDriver={true}
                 onRowPress={onPress}
+                disableLeftSwipe={disableLeftSwipe}
+                disableRightSwipe={disableRightSwipe}
             >
                 <View style={styles.standaloneRowBack}>
                     <TouchableOpacity
