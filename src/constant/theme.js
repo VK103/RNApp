@@ -48,13 +48,12 @@ export const color = {
   backGroundLogo: '#DBE7F6',
   themeDarkGray: '#B8B4B4',
   themeGray: '#C1C6D3',
-  purple: '#C58BF2',
-  purple2: '#EEA4CE',
   red: '#F24D50',
   lightRed: '#FFE2E3',
   green: '#18A261',
-  whiteLinear: ['#FFFFFF', '#FFFFFF'],
+  themeOrnage: '#FF9C27',
   lightgray: 'lightgray',
+  defaultGray: 'gray'
 };
 
 export const fontSize = {

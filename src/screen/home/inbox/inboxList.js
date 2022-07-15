@@ -28,13 +28,6 @@ class InboxList extends Component {
         }
     }
 
-    onPressMenuItem = (data) => {
-        if (data?.id == 2 || data?.id == 3) {
-            this.props.navigation.navigate('InboxList', {
-                title: data?.title
-            })
-        }
-    }
 
     render() {
         const { title } = this.props.route.params
@@ -46,7 +39,6 @@ class InboxList extends Component {
                     showRightIcon={true}
                     showBack={true}
                     menuList={homeMenuList}
-                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <FlatList
                     data={itemList}

@@ -12,7 +12,8 @@ const SwipeableItem = ({
     onPressDelete,
     onPressBookmark,
     disableLeftSwipe,
-    disableRightSwipe
+    disableRightSwipe,
+    frontContainer
 }) => {
     return (
         <View style={styles.container}>
@@ -52,7 +53,7 @@ const SwipeableItem = ({
                         <Text style={styles.backTextStyle}>{'Bookmark'}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.frontContainer}>
+                <View style={[styles.frontContainer, frontContainer]}>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.titleStyle, { flex: 1 }]}>{data?.title}</Text>
                         <Text style={[styles.titleStyle, { color: color.blue }]}>{data?.type}</Text>

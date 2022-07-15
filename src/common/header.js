@@ -4,6 +4,7 @@ import { Text, StyleSheet, View, TouchableOpacity, Platform, SafeAreaView, Statu
 import { color, fontSize, responsiveWidth } from '../constant/theme';
 import { AppIcon } from './appIcon'
 import Modal from 'react-native-modal';
+import { homeMenuList } from '../constant/menuList';
 
 const Header = ({
     title,
@@ -20,13 +21,25 @@ const Header = ({
     showRightIcon,
     customIcon,
     onPressCustomIcon,
-    menuList,
-    onPressItem,
     getHeaderHeight
 }) => {
     const { goBack } = useNavigation()
     const [headerHeight, setHeaderHeight] = useState(50)
     const [showMenu, setShowMenu] = useState(false)
+    const { navigate } = useNavigation()
+
+    const onPressSpecificItem = (data) => {
+        if (data?.id == 2 || data?.id == 3) {
+            navigate('InboxList', {
+                title: data?.title
+            })
+        } else if (data?.id == 5) {
+            navigate('StoreSettings', {
+                title: data?.title
+            });
+        }
+    }
+
     return (
         <SafeAreaView onLayout={(event) => {
             var { x, y, width, height } = event.nativeEvent.layout;
@@ -93,14 +106,14 @@ const Header = ({
                 >
                     <TouchableWithoutFeedback>
                         <View style={[styles.menuContainer, { top: headerHeight }]}>
-                            {menuList && Array.isArray(menuList) ? menuList.map((i, index) => {
+                            {homeMenuList && Array.isArray(homeMenuList) ? homeMenuList.map((i, index) => {
                                 return (
                                     <TouchableOpacity
                                         key={index.toString()}
                                         onPress={() => {
                                             setShowMenu(false)
                                             setTimeout(() => {
-                                                onPressItem(i)
+                                                onPressSpecificItem(i)
                                             }, 80);
                                         }}
                                         style={styles.itemContainer}

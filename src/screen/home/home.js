@@ -34,17 +34,6 @@ class Home extends Component {
         }
     }
 
-    onPressMenuItem = (data) => {
-        if (data?.id == 2 || data?.id == 3) {
-            this.props.navigation.navigate('InboxList', {
-                title: data?.title
-            })
-        } else if (data?.id == 5) {
-            this.props.navigation.navigate('StoreSettings', {
-                title: data?.title
-            })
-        }
-    }
 
     render() {
         const { inboxList, headerHeight } = this.state
@@ -54,7 +43,6 @@ class Home extends Component {
                     title={strings.AppName}
                     showRightIcon={true}
                     menuList={homeMenuList}
-                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <FlatList
                     data={inboxList}

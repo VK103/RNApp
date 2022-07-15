@@ -16,6 +16,10 @@ import Settings from '../screen/settings/settings';
 import InboxList from '../screen/home/inbox/inboxList';
 import InboxDetails from '../screen/home/inbox/inboxDetails';
 import StoreSettings from '../screen/store/storeSettings';
+import StoreDetails from '../screen/store/storeDetails';
+import { Image, StyleSheet } from 'react-native';
+import { icons } from '../assets';
+import ActiveCards from '../screen/cards/activeCard';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +36,7 @@ function MainNavigator() {
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="ConfirmLogin" component={ConfirmLogin} />
                 <Stack.Screen name="HomeTab" component={MyTab} />
-                <Stack.Screen name="InboxList" component={InboxList} />
+                {/* <Stack.Screen name="InboxList" component={InboxList} /> */}
                 <Stack.Screen name="InboxDetails" component={InboxDetails} />
             </Stack.Navigator>
         </NavigationContainer>
@@ -50,18 +54,21 @@ function MyTab() {
                     let iconName;
                     let type = ''
                     if (route.name === 'Inbox') {
-                        iconName = 'envelope'
+                        iconName = icons.icInbox
                         type = ''
                     } else if (route.name === 'Stores') {
-                        iconName = 'storefront-outline'
+                        iconName = icons.icStores
                         type = 'material-community'
                     } else if (route.name === 'Cards') {
-                        iconName = 'credit-card'
+                        iconName = icons.icCards
                     } else {
-                        iconName = 'cog-outline'
+                        iconName = icons.icSettings
                         type = 'material-community'
                     }
-                    return <AppIcon name={iconName} size={responsiveWidth(route.name === 'Stores' ? '6%' : '5%')} color={color} solid={false} type={type} />;
+                    return <Image
+                        source={iconName}
+                        style={[styles.iconsStyle, { tintColor: color }]}
+                    />
                 },
                 tabBarActiveTintColor: color.blue,
                 tabBarInactiveTintColor: color.black,
@@ -76,7 +83,7 @@ function MyTab() {
         >
             <Tab.Screen name="Inbox" component={MyInboxTab} />
             <Tab.Screen name="Stores" component={MyStoreTab} />
-            <Tab.Screen name="Cards" component={Cards} />
+            <Tab.Screen name="Cards" component={MyCardsTab} />
             <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator>
     );
@@ -92,7 +99,6 @@ function MyInboxTab() {
         >
             <Stack.Screen name="Inbox" component={Home} />
             <Stack.Screen name="InboxList" component={InboxList} />
-            <Stack.Screen name="StoreSettings" component={StoreSettings} />
         </Stack.Navigator>
     );
 }
@@ -107,9 +113,31 @@ function MyStoreTab() {
         >
             <Stack.Screen name="Stores" component={Stores} />
             <Stack.Screen name="StoreSettings" component={StoreSettings} />
-            <Stack.Screen name="InboxList" component={InboxList} />
+            <Stack.Screen name="StoreDetails" component={StoreDetails} />
+        </Stack.Navigator>
+    );
+}
+
+function MyCardsTab() {
+    return (
+
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen name="Cards" component={Cards} />
+            <Stack.Screen name="ActiveCards" component={ActiveCards} />
         </Stack.Navigator>
     );
 }
 
 export default MainNavigator;
+
+const styles = StyleSheet.create({
+    iconsStyle: {
+        height: responsiveWidth('6'),
+        width: responsiveWidth('6'),
+        resizeMode: 'cover'
+    }
+})

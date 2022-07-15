@@ -22,8 +22,24 @@ const strings = new LocalizedStrings({
     Region: 'Region',
     City: 'City',
     FindStores: 'Find stores',
+    Call: 'CALL',
+    Email: 'EMAIL',
+    Directions: 'DIRECTIONS',
+    Website: 'WEBSITE',
+    Open: 'Open',
+    Closing: 'Closing',
+    Info: 'Info',
+    Follow: 'Follow',
+    Followed: 'Followed',
+    RateUs: 'Please rate us:',
+    RatePlaceholder: 'Optional comment',
+
     // Cards
     Cards: 'Cards',
+    ActiveLoyaltyCard: 'Active loyalty card',
+    ActiveStampCard: 'Active stamp card',
+    AddCard: 'Add card',
+    SearchCard: 'Search card',
 
     // Settings
     Settings: 'Settings'

@@ -17,13 +17,6 @@ class InboxDetails extends Component {
         }
     }
 
-    onPressMenuItem = (data) => {
-        if (data?.id == 2 || data?.id == 3) {
-            this.props.navigation.navigate('InboxList', {
-                title: data?.title
-            })
-        }
-    }
 
     render() {
         const { title, details } = this.props.route.params
@@ -34,7 +27,6 @@ class InboxDetails extends Component {
                     showRightIcon={true}
                     showBack={true}
                     menuList={homeMenuList}
-                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <ScrollView
                     bounces={false}

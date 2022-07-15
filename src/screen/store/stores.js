@@ -51,17 +51,6 @@ class Stores extends Component {
         }
     }
 
-    onPressMenuItem = (data) => {
-        if (data?.id == 2 || data?.id == 3) {
-            this.props.navigation.navigate('InboxList', {
-                title: data?.title
-            })
-        } else if (data?.id == 5) {
-            this.props.navigation.navigate('StoreSettings', {
-                title: data?.title
-            })
-        }
-    }
 
     render() {
         const { txtSearch, storesList } = this.state
@@ -71,7 +60,6 @@ class Stores extends Component {
                     title={strings.AppName}
                     showRightIcon={true}
                     menuList={homeMenuList}
-                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                 />
                 <SearchBox
                     value={txtSearch}
@@ -88,7 +76,11 @@ class Stores extends Component {
                             <TouchableOpacity
                                 activeOpacity={0.7}
                                 style={styles.itemContainer}
-                                onPress={() => { }}
+                                onPress={() => {
+                                    this.props.navigation.navigate('StoreDetails', {
+                                        details: item
+                                    })
+                                }}
                             >
                                 <Text style={styles.itemTextStyle}>{item.title}</Text>
                             </TouchableOpacity>

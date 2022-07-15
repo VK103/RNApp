@@ -44,17 +44,6 @@ class StoreSettings extends Component {
         }
     }
 
-    onPressMenuItem = (data) => {
-        if (data?.id == 2 || data?.id == 3) {
-            this.props.navigation.navigate('InboxList', {
-                title: data?.title
-            })
-        } else if (data?.id == 5) {
-            this.props.navigation.navigate('StoreSettings', {
-                title: data?.title
-            })
-        }
-    }
 
     render() {
         const { title } = this.props.route.params
@@ -64,10 +53,8 @@ class StoreSettings extends Component {
                 <Header
                     title={title}
                     showRightIcon={true}
-                    menuList={homeMenuList}
-                    onPressItem={(data) => { this.onPressMenuItem(data) }}
                     showBack={true}
-                    hanldeGoBack={() => this.props.navigation.navigate('Stores')}
+                    // hanldeGoBack={() => this.props.navigation.navigate('Stores')}
                     getHeaderHeight={(height) => this.setState({ headerHeight: height })}
                 />
 
