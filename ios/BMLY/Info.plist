@@ -51,6 +51,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>BMLY need to your camera permission for capture image</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

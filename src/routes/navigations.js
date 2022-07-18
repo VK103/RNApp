@@ -20,6 +20,7 @@ import StoreDetails from '../screen/store/storeDetails';
 import { Image, StyleSheet } from 'react-native';
 import { icons } from '../assets';
 import ActiveCards from '../screen/cards/activeCard';
+import ScanCard from '../screen/cards/addCard/scanCard';
 
 const Stack = createNativeStackNavigator();
 
@@ -128,6 +129,7 @@ function MyCardsTab() {
         >
             <Stack.Screen name="Cards" component={Cards} />
             <Stack.Screen name="ActiveCards" component={ActiveCards} />
+            <Stack.Screen name="ScanCard" component={ScanCard} />
         </Stack.Navigator>
     );
 }

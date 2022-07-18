@@ -40,9 +40,32 @@ const strings = new LocalizedStrings({
     ActiveStampCard: 'Active stamp card',
     AddCard: 'Add card',
     SearchCard: 'Search card',
+    AddYourCard: 'Add your card',
+    CardDesc: 'Position your card in the frame to scan it.',
+    ManuallyCard: 'Enter card manually',
+    Save: 'Save',
+    Retake: 'Retake',
+    AddCard: 'Add card',
+    CardName: 'Card Name',
+    CardHolder: 'Card Holder',
+    CardNumber: 'Card Number',
+    ExpiryDate: 'Expiry Date',
+    DeleteCard: 'Delete card',
 
     // Settings
-    Settings: 'Settings'
+    Settings: 'Settings',
+    MyAccount: 'My account',
+    Preferences: 'Preferences',
+    DataSettings: 'Data settings',
+    CampaignSettings: 'Campaign settings',
+    ContactBMLY: 'Contact BMLY',
+    ShareApp: 'Share the app',
+    JoinAPp: 'Join the app',
+    PrivacyPolicy: 'Privacy Policy',
+    Help: 'Help',
+    About: 'About',
+    Account: 'Account',
+    StoreSettings: 'Store settings'
   },
 });
 

@@ -1,15 +1,102 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { color } from '../../constant/theme'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { icons } from '../../assets';
+import { AppIcon, Header } from '../../common';
+import { color, fontSize, responsiveWidth } from '../../constant/theme'
 
 import globleString from '../../language/localized';
 const strings = globleString.strings
+
+const SettingSection = ({ iconName, title, onPress }) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.7}
+            style={styles.sectionContainer}
+        >
+            <Image source={iconName} style={styles.iconStyle} />
+            <Text style={styles.sectionTextStyle}>{title}</Text>
+            <AppIcon
+                name={'chevron-right'}
+                size={responsiveWidth('6')}
+                type={'material-community'}
+                style={{
+                    left: responsiveWidth('2')
+                }}
+            />
+        </TouchableOpacity>
+    )
+}
 
 class Settings extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.textStyle}>{strings.Settings}</Text>
+                <Header
+                    title={strings.Settings}
+                    showRightIcon
+                />
+                <ScrollView
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.textStyle}>{strings.Account}</Text>
+                    </View>
+                    <SettingSection
+                        iconName={icons.icUser}
+                        title={strings.MyAccount}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icPreferences}
+                        title={strings.Preferences}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icDataSetting}
+                        title={strings.DataSettings}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icStoreSetting}
+                        title={strings.StoreSettings}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icCampignSetting}
+                        title={strings.CampaignSettings}
+                        onPress={() => { }}
+                    />
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.textStyle}>{strings.About}</Text>
+                    </View>
+                    <SettingSection
+                        iconName={icons.icContact}
+                        title={strings.ContactBMLY}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icShare}
+                        title={strings.ShareApp}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icJoinApp}
+                        title={strings.JoinAPp}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icPrivacyPolicy}
+                        title={strings.PrivacyPolicy}
+                        onPress={() => { }}
+                    />
+                    <SettingSection
+                        iconName={icons.icHelp}
+                        title={strings.Help}
+                        onPress={() => { }}
+                    />
+                </ScrollView>
             </View>
         )
     }
@@ -21,10 +108,35 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.white,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     textStyle: {
-        color: color.black
+        color: color.black,
+        fontWeight: 'bold',
+        fontSize: fontSize.regular
+    },
+    sectionTextStyle: {
+        color: color.black,
+        fontSize: fontSize.regular,
+        flex: 1
+    },
+    titleContainer: {
+        paddingHorizontal: responsiveWidth('4'),
+        paddingVertical: responsiveWidth('2.5'),
+        backgroundColor: color.backGroundGray
+    },
+    sectionContainer: {
+        flexDirection: 'row',
+        backgroundColor: color.white,
+        paddingHorizontal: responsiveWidth('4'),
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: color.lightgray,
+        paddingVertical: responsiveWidth('2')
+    },
+    iconStyle: {
+        height: responsiveWidth('7'),
+        width: responsiveWidth('7'),
+        resizeMode: 'cover',
+        marginRight: responsiveWidth('2.5')
     }
 })

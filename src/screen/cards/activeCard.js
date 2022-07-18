@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import { AppIcon, Header, SearchBox } from '../../common'
 import { color, fontSize, responsiveWidth } from '../../constant/theme'
 
@@ -56,22 +56,30 @@ class ActiveCards extends Component {
                         )
                     })}
                     <View style={styles.BottomContainer}>
-                        <View style={styles.subBottomContainer}>
+                        <TouchableOpacity
+                            style={styles.subBottomContainer}
+                            activeOpacity={0.5}
+                            onPress={() => { this.props.navigation.navigate('ScanCard') }}
+                        >
                             <AppIcon
                                 name={'plus'}
                                 size={responsiveWidth('8')}
                                 color={color.themeGray}
                             />
                             <Text style={styles.buttonTextStyle}>{strings.AddCard}</Text>
-                        </View>
-                        <View style={styles.subBottomContainer}>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.subBottomContainer}
+                            activeOpacity={0.5}
+                            onPress={() => { }}
+                        >
                             <AppIcon
                                 name={'search'}
                                 size={responsiveWidth('8')}
                                 color={color.themeGray}
                             />
                             <Text style={styles.buttonTextStyle}>{strings.SearchCard}</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
             </View>
