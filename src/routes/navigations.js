@@ -21,6 +21,8 @@ import { Image, StyleSheet } from 'react-native';
 import { icons } from '../assets';
 import ActiveCards from '../screen/cards/activeCard';
 import ScanCard from '../screen/cards/addCard/scanCard';
+import MyAccount from '../screen/settings/myAccount';
+import Preferences from '../screen/settings/preference';
 
 const Stack = createNativeStackNavigator();
 
@@ -85,7 +87,7 @@ function MyTab() {
             <Tab.Screen name="Inbox" component={MyInboxTab} />
             <Tab.Screen name="Stores" component={MyStoreTab} />
             <Tab.Screen name="Cards" component={MyCardsTab} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen name="Settings" component={MySettingsTab} />
         </Tab.Navigator>
     );
 }
@@ -130,6 +132,21 @@ function MyCardsTab() {
             <Stack.Screen name="Cards" component={Cards} />
             <Stack.Screen name="ActiveCards" component={ActiveCards} />
             <Stack.Screen name="ScanCard" component={ScanCard} />
+        </Stack.Navigator>
+    );
+}
+
+function MySettingsTab() {
+    return (
+
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="MyAccount" component={MyAccount} />
+            <Stack.Screen name="Preferences" component={Preferences} />
         </Stack.Navigator>
     );
 }

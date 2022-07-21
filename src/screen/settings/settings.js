@@ -30,6 +30,7 @@ const SettingSection = ({ iconName, title, onPress }) => {
 
 class Settings extends Component {
     render() {
+        const { navigation } = this.props
         return (
             <View style={styles.container}>
                 <Header
@@ -46,12 +47,12 @@ class Settings extends Component {
                     <SettingSection
                         iconName={icons.icUser}
                         title={strings.MyAccount}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('MyAccount') }}
                     />
                     <SettingSection
                         iconName={icons.icPreferences}
                         title={strings.Preferences}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('Preferences') }}
                     />
                     <SettingSection
                         iconName={icons.icDataSetting}

@@ -65,7 +65,17 @@ const strings = new LocalizedStrings({
     Help: 'Help',
     About: 'About',
     Account: 'Account',
-    StoreSettings: 'Store settings'
+    StoreSettings: 'Store settings',
+    AccountFirstName: 'First name',
+    LastName: 'Last name',
+    MobileNumber: 'Mobile number',
+    AccountEmail: 'Email',
+    Gender: 'Gender',
+    Zip: 'Zip',
+    MyAccount: 'My account',
+    Camera: 'Camera',
+    Location: 'Location',
+    PushNotifications: 'Push notifications'
   },
 });
 
