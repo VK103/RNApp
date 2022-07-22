@@ -75,7 +75,13 @@ const strings = new LocalizedStrings({
     MyAccount: 'My account',
     Camera: 'Camera',
     Location: 'Location',
-    PushNotifications: 'Push notifications'
+    PushNotifications: 'Push notifications',
+    SettingPrivacyPolicy: 'Privacy policy',
+    ManageData: 'Manage my data settings',
+    ExportData: 'Export my data',
+    DeleteAccount: 'Delete my account',
+    SavedCampaigns: 'Saved campaigns',
+    DeletedCampaigns: 'Deleted campaigns',
   },
 });
 

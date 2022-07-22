@@ -23,6 +23,8 @@ import ActiveCards from '../screen/cards/activeCard';
 import ScanCard from '../screen/cards/addCard/scanCard';
 import MyAccount from '../screen/settings/myAccount';
 import Preferences from '../screen/settings/preference';
+import DataSettings from '../screen/settings/dataSetting';
+import CampaignSetting from '../screen/settings/campaignSetting';
 
 const Stack = createNativeStackNavigator();
 
@@ -147,6 +149,8 @@ function MySettingsTab() {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="MyAccount" component={MyAccount} />
             <Stack.Screen name="Preferences" component={Preferences} />
+            <Stack.Screen name="DataSettings" component={DataSettings} />
+            <Stack.Screen name="CampaignSetting" component={CampaignSetting} />
         </Stack.Navigator>
     );
 }

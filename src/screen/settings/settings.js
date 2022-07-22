@@ -57,17 +57,21 @@ class Settings extends Component {
                     <SettingSection
                         iconName={icons.icDataSetting}
                         title={strings.DataSettings}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('DataSettings') }}
                     />
                     <SettingSection
                         iconName={icons.icStoreSetting}
                         title={strings.StoreSettings}
-                        onPress={() => { }}
+                        onPress={() => {
+                            navigation.navigate('StoreSettings', {
+                                title: strings.StoreSettings
+                            });
+                        }}
                     />
                     <SettingSection
                         iconName={icons.icCampignSetting}
                         title={strings.CampaignSettings}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('CampaignSetting') }}
                     />
                     <View style={styles.titleContainer}>
                         <Text style={styles.textStyle}>{strings.About}</Text>
