@@ -45,6 +45,7 @@ class ScanCard extends Component {
                         <Button
                             title={strings.Save}
                             titleStyle={{ paddingHorizontal: responsiveWidth('6') }}
+                            onPress={() => { this.props.navigation.navigate('AddCardManually') }}
                         />
                     </View> : <>
                         <Text style={styles.titleText}>{strings.AddYourCard}</Text>

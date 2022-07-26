@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Linking } from 'react-native'
 import { icons } from '../../assets';
 import { AppIcon, Header } from '../../common';
 import { color, fontSize, responsiveWidth } from '../../constant/theme'
+import Share from 'react-native-share';
 
 import globleString from '../../language/localized';
 const strings = globleString.strings
@@ -79,27 +80,34 @@ class Settings extends Component {
                     <SettingSection
                         iconName={icons.icContact}
                         title={strings.ContactBMLY}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('Contact') }}
                     />
                     <SettingSection
                         iconName={icons.icShare}
                         title={strings.ShareApp}
-                        onPress={() => { }}
+                        onPress={() => {
+                            Share.open({ message: 'BMLY' })
+                                .then((res) => { console.log(res) })
+                                .catch((err) => { err && console.log(err) });
+                        }}
                     />
                     <SettingSection
                         iconName={icons.icJoinApp}
                         title={strings.JoinAPp}
-                        onPress={() => { }}
+                        onPress={() => {
+                            Linking.openURL('mailto:app.support@loyaltycommunication.com?subject=Join the App')
+                            // title="support@example.com"
+                        }}
                     />
                     <SettingSection
                         iconName={icons.icPrivacyPolicy}
                         title={strings.PrivacyPolicy}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('PrivacyPolicy') }}
                     />
                     <SettingSection
                         iconName={icons.icHelp}
                         title={strings.Help}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate('Help') }}
                     />
                 </ScrollView>
             </View>

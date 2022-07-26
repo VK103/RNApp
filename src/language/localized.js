@@ -82,6 +82,10 @@ const strings = new LocalizedStrings({
     DeleteAccount: 'Delete my account',
     SavedCampaigns: 'Saved campaigns',
     DeletedCampaigns: 'Deleted campaigns',
+    AboutUS: 'About us',
+    AboutDesc: 'BMLY is a one-stop solution for all your marketing needs! But it does not stop at that!\n\nOur varied widgets, apart from helping you market your product better, help you improve your customers overall experience as well! From easy customer opt-ins to insights that help you improve your product, we have you covered!',
+    Webpage: 'Webpage',
+    PrivacyPolicyVersion: 'Privacy Policy v 1.0',
   },
 });
 
