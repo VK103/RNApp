@@ -7,7 +7,17 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "pod-install": "cd ios && pod install",
+    "gradle-clean": "cd android &&./gradlew clean",
+    "android-build": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "ios-build": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios",
+    "generate-apk": "cd android && ./gradlew assembleDebug",
+    "remove-drawable": "rm -rf android/app/src/main/res/drawable-*",
+    "remove-raw": "rm -rf android/app/src/main/res/raw",
+    "start:development": "NODE_ENV=development npx react-native start",
+    "start:production": "NODE_ENV=production npx react-native start",
+    "cc": "rimraf node_modules/.cache/babel-loader/*,"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",

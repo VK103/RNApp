@@ -248,7 +248,7 @@ class StoreDetails extends Component {
                             data={item}
                             onPress={() => {
                                 this.props.navigation.navigate('InboxDetails', {
-                                    title: title,
+                                    title: item?.title || '',
                                     details: item
                                 })
                             }}
