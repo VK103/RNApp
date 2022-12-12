@@ -1,4 +1,4 @@
-package com.bmly.newarchitecture;
+package com.app.bmlyapp.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.bmly.BuildConfig;
-import com.bmly.newarchitecture.components.MainComponentsRegistry;
-import com.bmly.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.app.bmlyapp.BuildConfig;
+import com.app.bmlyapp.newarchitecture.components.MainComponentsRegistry;
+import com.app.bmlyapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

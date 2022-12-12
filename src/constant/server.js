@@ -1,0 +1,28 @@
+import { BASE_URL } from "@env";
+
+export const server = {
+  baseURL: BASE_URL,
+  authToken: "authenticate/token",
+  allCountries: "lookup/countries",
+  userProfile: "user/Profile",
+  mobile: "mobile",
+  sendVerificationCode: "SendVerificationCode",
+  verifyPhoneNumber: "VerifyPhoneNumber",
+  stores: "Stores",
+  store: "Store",
+  getLoyaltyCard: "mobile/LoyaltyCards",
+  getStampCard: "mobile/Stamps",
+  rateStore: "mobile/RateStore",
+  addLoyaltyCard: "mobile/LoyaltyCard",
+  getCampaigns: "mobile/Campaigns",
+  getStoreCampaign: "mobile/StoreCampaigns",
+  getCategories: "mobile/Categories",
+  getRegion: "lookup/Regions",
+  getCities: "lookup/Cities",
+  findStores: "mobile/FindStores",
+  getAboutUs: "mobile/AboutUs",
+  getOptInOut: "mobile/OptInOut",
+  getMyAccount: "mobile/MyAccount",
+  followStore: "mobile/FollowStore",
+  deleteAccount: "mobile/Account",
+};

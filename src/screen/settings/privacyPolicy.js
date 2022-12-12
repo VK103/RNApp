@@ -1,21 +1,34 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView, Text } from 'react-native'
-import { FlatItem, Header } from '../../common';
-import { color, fontSize, responsiveWidth } from '../../constant/theme'
+import React, { Component } from "react";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
+import WebView from "react-native-webview";
+import { FlatItem, Header, Loader } from "../../common";
+import { color, fontSize, responsiveWidth } from "../../constant/theme";
 
-import globleString from '../../language/localized';
-const strings = globleString.strings
+import globleString from "../../language/localized";
+const strings = globleString.strings;
 
 class PrivacyPolicy extends Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Header
-                    title={strings.PrivacyPolicy}
-                    showRightIcon
-                    showBack={true}
-                />
-                <ScrollView
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const { isVisible } = this.state;
+    return (
+      <View style={styles.container}>
+        <Header
+          title={strings.PrivacyPolicy}
+          //showRightIcon
+          showBack={true}
+        />
+        <WebView
+          source={{ uri: this.props.route?.params?.url || "" }}
+          style={{ flex: 1 }}
+          onLoadStart={() => this.setState({ isVisible: true })}
+          onLoadEnd={() => this.setState({ isVisible: false })}
+        />
+        <Loader isVisible={isVisible} />
+        {/* <ScrollView
                     bounces={false}
                     showsVerticalScrollIndicator={false}
                 >
@@ -26,30 +39,30 @@ class PrivacyPolicy extends Component {
                             {'\n\n'}SUBSCRIBER PROVISIONS{'\n'}
                             This Privacy Policy applies to processing of your personal data where Loyalty Communication AS (“We”, “Us” or “Our”) is the data controller or where We refer to the applicability of this Privacy Policy. When our services are provided indirectly by a third-party we act in the role of data processor and follow the instructions of the Data Processing Agreement. If You are the customer of such a third- party please refer to their Privacy Policy. It shall also be stated in the Data Processing Agreement with the controller that the processor undertakes to carry out such appropriate technical and organizational security measures as ensue from section 13 of the Norwegian Personal Data Act and the General Data Protection Regulation. This Privacy Policy is by reference to Appendix 1 incorporated in the Terms of Service (the “Agreement”) posted at</Text>
                     </View>
-                </ScrollView>
-            </View>
-        )
-    }
+                </ScrollView> */}
+      </View>
+    );
+  }
 }
 
-export default PrivacyPolicy
+export default PrivacyPolicy;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: color.white
-    },
-    topContainer: {
-        paddingHorizontal: responsiveWidth('4'),
-        paddingVertical: responsiveWidth('6')
-    },
-    basicTextStyle: {
-        color: color.black,
-        fontSize: fontSize.mini
-    },
-    titleStyle: {
-        color: color.black,
-        fontSize: fontSize.large,
-        paddingBottom: responsiveWidth('4')
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: color.white,
+  },
+  topContainer: {
+    paddingHorizontal: responsiveWidth("4"),
+    paddingVertical: responsiveWidth("6"),
+  },
+  basicTextStyle: {
+    color: color.black,
+    fontSize: fontSize.mini,
+  },
+  titleStyle: {
+    color: color.black,
+    fontSize: fontSize.large,
+    paddingBottom: responsiveWidth("4"),
+  },
+});

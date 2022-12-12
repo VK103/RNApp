@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import { asyncKeys } from '../constant/keys';
+import AsyncStorage from "@react-native-community/async-storage";
+import { asyncKeys } from "../constant/keys";
 
 /** Async-Storage Methods */
 class AsyncHelper {
@@ -14,14 +14,14 @@ class AsyncHelper {
   }
   async removeAllValues() {
     return AsyncStorage.getAllKeys((err, keys) => {
-      keys.forEach(key => {
+      keys.forEach((key) => {
         AsyncStorage.removeItem(key);
       });
     });
   }
   async removeLogoutValues() {
     AsyncStorage.getAllKeys((err, keys) => {
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (key !== asyncKeys.REMEMBER_ME && key !== asyncKeys.IS_INTRO) {
           AsyncStorage.removeItem(key);
         }

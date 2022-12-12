@@ -1,4 +1,4 @@
-package com.bmly.newarchitecture.components;
+package com.app.bmlyapp.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

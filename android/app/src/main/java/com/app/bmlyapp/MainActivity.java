@@ -1,4 +1,4 @@
-package com.bmly;
+package com.app.bmlyapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
