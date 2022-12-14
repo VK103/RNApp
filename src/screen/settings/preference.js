@@ -11,8 +11,12 @@ import {
 import { icons } from "../../assets";
 import { AppIcon, Header } from "../../common";
 import { color, fontSize, responsiveWidth } from "../../constant/theme";
+import { setPushNotificationStatus } from "../../redux/actions/settingAction";
 
 import globleString from "../../language/localized";
+import { connect } from "react-redux";
+import AsyncStorage from "@react-native-community/async-storage";
+import { asyncKey } from "../../constant/keys";
 const strings = globleString.strings;
 
 const AccountSection = ({ value, title, onChnage }) => {
@@ -44,6 +48,25 @@ class Preferences extends Component {
       isEnabledInAppNotification: false,
     };
   }
+
+  onSwitchNotificationStatus = async () => {
+    let phoneStr = await AsyncStorage.getItem(asyncKey.USER_PHONE);
+    let phoneData = JSON.parse(phoneStr);
+    this.props.setPushNotificationStatus({
+      peopleSubscriberId: phoneData?.peopleSubscriberId || "",
+      isActive: true,
+    });
+  };
+
+  async componentDidMount() {
+    let inAppNotification = await AsyncStorage.getItem(
+      asyncKey.IN_APP_NOTIFICATIONS
+    );
+    this.setState({
+      isEnabledInAppNotification: JSON.parse(inAppNotification),
+    });
+  }
+
   render() {
     const {
       isEnabledCamera,
@@ -78,6 +101,7 @@ class Preferences extends Component {
             title={strings.PushNotifications}
             onChnage={(val) => {
               this.setState({ isEnabledNotification: val });
+              this.onSwitchNotificationStatus();
             }}
           />
           <AccountSection
@@ -85,6 +109,10 @@ class Preferences extends Component {
             title={strings.InAppNotifications}
             onChnage={(val) => {
               this.setState({ isEnabledInAppNotification: val });
+              AsyncStorage.setItem(
+                asyncKey.IN_APP_NOTIFICATIONS,
+                JSON.stringify(val)
+              );
             }}
           />
         </ScrollView>
@@ -92,8 +120,13 @@ class Preferences extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {};
+};
 
-export default Preferences;
+export default connect(mapStateToProps, {
+  setPushNotificationStatus,
+})(Preferences);
 
 const styles = StyleSheet.create({
   container: {

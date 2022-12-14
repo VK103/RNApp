@@ -1,7 +1,9 @@
 // react-native-swipe-list-view
+import AsyncStorage from "@react-native-community/async-storage";
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { Header } from "../../../common";
+import { asyncKey } from "../../../constant/keys";
 import { homeMenuList } from "../../../constant/menuList";
 import { color } from "../../../constant/theme";
 
@@ -17,10 +19,88 @@ class InboxList extends Component {
     };
   }
 
-  componentDidMount() {
-    let data = this.props.route?.params?.data || {};
-    this.setState({ itemList: data?.campaignInfo || [] });
+  async componentDidMount() {
+    const { title } = this?.props?.route?.params;
+    if (title == "Bookmark" || title == strings.SavedCampaigns) {
+      let bookmarkCampaign = await AsyncStorage.getItem(
+        asyncKey.BOOKMARK_CAMPAIGN
+      );
+      let bookmarkCampaignList = JSON.parse(bookmarkCampaign) || [];
+      this.setState({ itemList: bookmarkCampaignList || [] });
+    } else if (title == "Deleted" || title == strings.DeletedCampaigns) {
+      let deletedCampaign = await AsyncStorage.getItem(
+        asyncKey.DELETED_CAMPAIGN
+      );
+      let deletedCampaignList = JSON.parse(deletedCampaign) || [];
+      this.setState({ itemList: deletedCampaignList || [] });
+    } else {
+      let deletedCampaign = await AsyncStorage.getItem(
+        asyncKey.DELETED_CAMPAIGN
+      );
+      let deletedCampaignList = JSON.parse(deletedCampaign) || [];
+      let data = this.props.route?.params?.data || {};
+      let newRecordList = [];
+      data?.campaignInfo?.map((i) => {
+        const checkIsDeleted = deletedCampaignList.filter(
+          (f) => JSON.stringify(f) === JSON.stringify(i)
+        );
+        if (checkIsDeleted.length == 0) {
+          newRecordList.push(i);
+        }
+      });
+      this.setState({ itemList: newRecordList || [] });
+    }
   }
+
+  onHandleDelete = async (item) => {
+    const { itemList } = this.state;
+    let deletedCampaign = await AsyncStorage.getItem(asyncKey.DELETED_CAMPAIGN);
+    let deletedCampaignList = JSON.parse(deletedCampaign) || [];
+
+    const checkIsExist = deletedCampaignList.filter(
+      (i) => JSON.stringify(i) === JSON.stringify(item)
+    );
+
+    if (checkIsExist.length === 0) {
+      deletedCampaignList.push(item);
+      await AsyncStorage.setItem(
+        asyncKey.DELETED_CAMPAIGN,
+        JSON.stringify(deletedCampaignList)
+      );
+      let newRecordList = [];
+      itemList.map((i) => {
+        const checkIsDeleted = deletedCampaignList.filter(
+          (f) => JSON.stringify(f) === JSON.stringify(i)
+        );
+        if (checkIsDeleted.length == 0) {
+          newRecordList.push(i);
+        }
+      });
+      this.setState({ itemList: newRecordList || [] });
+    }
+  };
+
+  onHandleBookmark = async (item) => {
+    let bookmarkCampaign = await AsyncStorage.getItem(
+      asyncKey.BOOKMARK_CAMPAIGN
+    );
+    let bookmarkCampaignList = JSON.parse(bookmarkCampaign) || [];
+
+    const checkIsExist = bookmarkCampaignList.filter(
+      (i) => JSON.stringify(i) === JSON.stringify(item)
+    );
+
+    if (checkIsExist.length === 0) {
+      bookmarkCampaignList.push(item);
+      await AsyncStorage.setItem(
+        asyncKey.BOOKMARK_CAMPAIGN,
+        JSON.stringify(bookmarkCampaignList)
+      );
+      Alert.alert(strings.AppName, "Campaign successfully bookmark.");
+    } else {
+      Alert.alert(strings.AppName, "This campaign already bookmark by you.");
+    }
+  };
 
   render() {
     const { title } = this.props.route.params;
@@ -32,6 +112,7 @@ class InboxList extends Component {
           showRightIcon={true}
           showBack={true}
           menuList={homeMenuList}
+          navigations={this.props.navigation}
         />
         <FlatList
           data={itemList}
@@ -51,7 +132,18 @@ class InboxList extends Component {
                   });
                 }}
                 disableRightSwipe={title == "Deleted" || title == "Bookmark"}
-                disableLeftSwipe={title == "Deleted" || title == "Bookmark"}
+                disableLeftSwipe={
+                  title == "Deleted" ||
+                  title == "Bookmark" ||
+                  title == strings.SavedCampaigns ||
+                  title == strings.DeletedCampaigns
+                }
+                onPressBookmark={() => {
+                  this.onHandleBookmark(item);
+                }}
+                onPressDelete={() => {
+                  this.onHandleDelete(item);
+                }}
               />
             );
           }}

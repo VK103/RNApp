@@ -25,4 +25,6 @@ export const server = {
   getMyAccount: "mobile/MyAccount",
   followStore: "mobile/FollowStore",
   deleteAccount: "mobile/Account",
+  pushNotification: "mobile/PushNotification",
+  updateFirstname: "mobile/FirstName",
 };

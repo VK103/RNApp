@@ -19,10 +19,20 @@ class CampaignSetting extends Component {
           <FlatItem
             title={strings.SavedCampaigns}
             containerStyle={{ paddingVertical: responsiveWidth("3") }}
+            onPress={() => {
+              this.props.navigation.navigate("InboxList", {
+                title: strings.SavedCampaigns,
+              });
+            }}
           />
           <FlatItem
             title={strings.DeletedCampaigns}
             containerStyle={{ paddingVertical: responsiveWidth("3") }}
+            onPress={() => {
+              this.props.navigation.navigate("InboxList", {
+                title: strings.DeletedCampaigns,
+              });
+            }}
           />
         </ScrollView>
       </View>

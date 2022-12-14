@@ -77,11 +77,11 @@ export const addStoreRate = (data) => async (dispatch) => {
     });
 };
 
-export const getAllCategories = () => async (dispatch) => {
+export const getAllCategories = (data) => async (dispatch) => {
   const token = await getUserToken();
   return makeAPIRequest({
     method: "GET",
-    url: `${server.getCategories}`,
+    url: `${server.getCategories}?${urlHelper.serializeURL(data)}`,
     headers: {
       Authorization: token,
     },

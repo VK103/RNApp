@@ -14,8 +14,12 @@ import { color, fontSize, responsiveWidth } from "../../constant/theme";
 
 import { connect } from "react-redux";
 
-import { getMyAccount } from "../../redux/actions/authActions";
+import {
+  getMyAccount,
+  getAllCountriesList,
+} from "../../redux/actions/authActions";
 
+import { updateUserName } from "../../redux/actions/userAction";
 import globleString from "../../language/localized";
 import AsyncStorage from "@react-native-community/async-storage";
 import { asyncKey } from "../../constant/keys";
@@ -40,7 +44,7 @@ class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      txtName: "Malin Syvertson",
+      txtName: "",
       txtMobile: "",
       txtEmail: "",
       txtGender: "",
@@ -50,9 +54,17 @@ class MyAccount extends Component {
   }
 
   //Life Cycle Methods
-  componentDidMount() {
+  async componentDidMount() {
+    await this.onCallGetAllCountry();
     this.onCallGetMyAccount();
   }
+
+  onCallGetAllCountry = () => {
+    this.props
+      .getAllCountriesList()
+      .then(() => this.setState({ isVisible: false }))
+      .catch(() => this.setState({ isVisible: false }));
+  };
 
   //API call methods
   onCallGetMyAccount = async () => {
@@ -65,8 +77,13 @@ class MyAccount extends Component {
     this.props
       .getMyAccount(params)
       .then((res) => {
+        const { allCountriesList } = this.props;
         console.log("res: ", res?.data);
         let accountData = res?.data;
+        const countryCode = accountData?.mobileNumber?.split("-")[0] || null;
+        const indexOfCountry = allCountriesList.findIndex(
+          (i) => i?.countryCode == countryCode
+        );
         this.setState({
           isVisible: false,
           txtName: accountData?.firstName || "",
@@ -74,10 +91,22 @@ class MyAccount extends Component {
           txtEmail: accountData?.email || "",
           txtGender: accountData?.gender || "",
           txtZip: accountData?.zip || "",
-          txtCountry: accountData?.mobileNumber || "",
+          txtCountry:
+            indexOfCountry > -1
+              ? allCountriesList[indexOfCountry]?.countryname
+              : "",
         });
       })
       .catch(() => this.setState({ isVisible: false }));
+  };
+
+  onUpdateFirstName = async () => {
+    let phoneStr = await AsyncStorage.getItem(asyncKey.USER_PHONE);
+    let phoneData = JSON.parse(phoneStr);
+    this.props.updateUserName({
+      firstName: this.state.txtName,
+      peopleSubscriberId: phoneData?.peopleSubscriberId || "",
+    });
   };
 
   render() {
@@ -109,6 +138,9 @@ class MyAccount extends Component {
               ]}
               value={txtName}
               onChangeText={(text) => this.setState({ txtName: text })}
+              onBlur={() => {
+                this.onUpdateFirstName();
+              }}
             />
             <AppIcon name={"pen"} color={color.blue} size={18} />
           </View>
@@ -144,11 +176,16 @@ class MyAccount extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  const { allCountriesList } = state.auth;
+  return {
+    allCountriesList,
+  };
 };
 
 export default connect(mapStateToProps, {
   getMyAccount,
+  updateUserName,
+  getAllCountriesList,
 })(MyAccount);
 
 const styles = StyleSheet.create({

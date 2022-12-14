@@ -40,3 +40,21 @@ export const setOptInOutStatus = (data) => async (dispatch) => {
       console.log("failed to get optin-out status :: ", e.response);
     });
 };
+
+export const setPushNotificationStatus = (data) => async (dispatch) => {
+  const token = await getUserToken();
+  return makeAPIRequest({
+    method: "POST",
+    url: `${server.pushNotification}?${urlHelper.serializeURL(data)}`,
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((res) => {
+      console.log("notification status :: ", res);
+      return res;
+    })
+    .catch((e) => {
+      console.log("failed to set push notification status :: ", e.response);
+    });
+};

@@ -36,6 +36,11 @@ import { getAllCountriesList } from "../../redux/actions/authActions";
 import globleString from "../../language/localized";
 import moment from "moment";
 import { countryList, homeMenuList } from "../../constant/menuList";
+import store from "../../../store";
+import {
+  GET_ALL_STORE_LIST,
+  GET_ALL_STORE_LIST_BY_ALPHA,
+} from "../../redux/actions/types";
 const strings = globleString.strings;
 
 const SectionContainer = ({ title, value, onPress }) => {
@@ -82,6 +87,34 @@ class StoreSettings extends Component {
       categories: [],
       region: [],
       cities: [],
+      alphabet: [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+      ],
     };
   }
 
@@ -140,7 +173,7 @@ class StoreSettings extends Component {
     try {
       this.setState({ isVisible: true });
       this.props
-        .getAllCategories()
+        .getAllCategories({ categoryType: "Store" })
         .then((res) => {
           console.log("res: ", res?.data);
           this.setState({ isVisible: false, categories: res?.data || [] });
@@ -226,6 +259,7 @@ class StoreSettings extends Component {
       selCategoryIndex,
       categories,
       selCountryIndex,
+      alphabet,
     } = this.state;
     const { allCountriesList } = this.props;
     let params = {
@@ -241,6 +275,23 @@ class StoreSettings extends Component {
         .then((res) => {
           console.log("res: ", res?.data);
           this.setState({ isVisible: false });
+          store.dispatch({ type: GET_ALL_STORE_LIST, payload: res?.data });
+          let storeArr = [];
+          for (const i of alphabet) {
+            let alpha = i.toUpperCase();
+            let alphaItems = res?.data?.filter((el) => {
+              let storeAlpha = el?.storeName?.charAt(0)?.toUpperCase();
+              return storeAlpha === alpha ? true : false;
+            });
+            if (alphaItems?.length > 0)
+              storeArr.push({ title: alpha, data: alphaItems });
+          }
+          // this.setState({ storesList: storeArr });
+          store.dispatch({
+            type: GET_ALL_STORE_LIST_BY_ALPHA,
+            payload: storeArr,
+          });
+          this.props.navigation.navigate("Stores", { fromWhere: "setting" });
         })
         .catch((e) => {
           this.setState({ isVisible: false });

@@ -21,6 +21,11 @@ import {
 import { getStoreList } from "../../redux/actions/storeAction";
 
 import globleString from "../../language/localized";
+import store from "../../../store";
+import {
+  GET_ALL_STORE_LIST,
+  GET_ALL_STORE_LIST_BY_ALPHA,
+} from "../../redux/actions/types";
 const strings = globleString.strings;
 
 class Stores extends Component {
@@ -62,7 +67,10 @@ class Stores extends Component {
 
   //Life cycle methods
   componentDidMount() {
-    this.onCallGetStore();
+    const fromWhere = this?.props?.route?.params?.fromWhere;
+    if (fromWhere !== "setting") {
+      this.onCallGetStore();
+    }
   }
 
   //API call methods
@@ -77,6 +85,7 @@ class Stores extends Component {
           this.setState({ isVisible: false, isRefresh: false });
           let storeData = res?.data || [];
           this.setState({ storeData: storeData });
+          store.dispatch({ type: GET_ALL_STORE_LIST, payload: storeData });
           let storeArr = [];
           for (const i of alphabet) {
             let alpha = i.toUpperCase();
@@ -87,7 +96,11 @@ class Stores extends Component {
             if (alphaItems?.length > 0)
               storeArr.push({ title: alpha, data: alphaItems });
           }
-          this.setState({ storesList: storeArr });
+          // this.setState({ storesList: storeArr });
+          store.dispatch({
+            type: GET_ALL_STORE_LIST_BY_ALPHA,
+            payload: storeArr,
+          });
         })
         .catch((e) => {
           this.setState({ isVisible: false, isRefresh: false });
@@ -99,11 +112,12 @@ class Stores extends Component {
     }
   };
   filterStore = (text) => {
-    const { alphabet, storeData } = this.state;
+    const { alphabet } = this.state;
+    const { storeList } = this.props;
     let storeArr = [];
     for (const i of alphabet) {
       let alpha = i.toUpperCase();
-      let alphaItems = storeData?.filter((el) => {
+      let alphaItems = storeList?.filter((el) => {
         let storeAlpha = el?.storeName?.charAt(0)?.toUpperCase();
         let isSearchable = el?.storeName?.indexOf(text) > -1;
         return storeAlpha === alpha && isSearchable ? true : false;
@@ -117,6 +131,7 @@ class Stores extends Component {
   //Render Methods
   render() {
     const { txtSearch, storesList, isVisible } = this.state;
+    const { storeListByAlpha } = this.props;
     return (
       <View style={styles.container}>
         <Header
@@ -133,7 +148,7 @@ class Stores extends Component {
           }}
         />
         <SectionList
-          sections={storesList}
+          sections={txtSearch.length > 0 ? storesList : storeListByAlpha}
           stickySectionHeadersEnabled={false}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -174,7 +189,11 @@ class Stores extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  const { storeList, storeListByAlpha } = state.stores;
+  return {
+    storeList,
+    storeListByAlpha,
+  };
 };
 
 export default connect(mapStateToProps, {
