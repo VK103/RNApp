@@ -102,6 +102,21 @@ class InboxList extends Component {
     }
   };
 
+  removeFromBookmark = async (item) => {
+    const { itemList } = this.state;
+
+    const checkIsExist = itemList.filter(
+      (i) => JSON.stringify(i) !== JSON.stringify(item)
+    );
+
+    this.setState({ itemList: checkIsExist });
+
+    await AsyncStorage.setItem(
+      asyncKey.BOOKMARK_CAMPAIGN,
+      JSON.stringify(checkIsExist)
+    );
+  };
+
   render() {
     const { title } = this.props.route.params;
     const { itemList } = this.state;
@@ -142,7 +157,9 @@ class InboxList extends Component {
                   this.onHandleBookmark(item);
                 }}
                 onPressDelete={() => {
-                  this.onHandleDelete(item);
+                  title == strings.SavedCampaigns
+                    ? this.removeFromBookmark(item)
+                    : this.onHandleDelete(item);
                 }}
               />
             );

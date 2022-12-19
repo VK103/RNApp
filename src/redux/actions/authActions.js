@@ -6,6 +6,7 @@ import { DOMAIN, HTTP_DOMAIN } from "@env";
 import UUIDGenerator from "react-native-uuid-generator";
 import { GET_ALL_COUNTRIES } from "./types";
 import urlHelper from "../../helper/url";
+import { Platform } from "react-native";
 
 export const loginUser = (data) => async (dispatch) => {
   const uid = await UUIDGenerator.getRandomUUID();
@@ -116,7 +117,9 @@ export const verifyPhoneNumber = (data) => async (dispatch) => {
   const token = await getUserToken();
   return makeAPIRequest({
     method: "POST",
-    url: `${server.mobile}/${server.verifyPhoneNumber}`,
+    url: `${server.mobile}/${server.verifyPhoneNumber}?deviceType=${
+      Platform.OS == "ios" ? "IOS" : "Android"
+    }`,
     data,
     headers: { Authorization: token },
   })

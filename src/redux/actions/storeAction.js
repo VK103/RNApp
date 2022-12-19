@@ -4,6 +4,8 @@ import { getUserToken, makeAPIRequest } from "../../helper/globle";
 import { HTTP_DOMAIN } from "@env";
 import asyncHelper from "../../helper/async";
 import urlHelper from "../../helper/url";
+import { GET_ALL_STORE_LIST, GET_ALL_STORE_LIST_BY_ALPHA } from "./types";
+import { alphabetList } from "../../constant/menuList";
 
 export const getStoreList = () => async (dispatch) => {
   const token = await getUserToken();
@@ -16,6 +18,22 @@ export const getStoreList = () => async (dispatch) => {
   })
     .then((res) => {
       console.log("store list :: ", res);
+      let storeData = res?.data || [];
+      dispatch({ type: GET_ALL_STORE_LIST, payload: storeData });
+      let storeArr = [];
+      for (const i of alphabetList) {
+        let alpha = i.toUpperCase();
+        let alphaItems = storeData?.filter((el) => {
+          let storeAlpha = el?.storeName?.charAt(0)?.toUpperCase();
+          return storeAlpha === alpha ? true : false;
+        });
+        if (alphaItems?.length > 0)
+          storeArr.push({ title: alpha, data: alphaItems });
+      }
+      dispatch({
+        type: GET_ALL_STORE_LIST_BY_ALPHA,
+        payload: storeArr,
+      });
       return res;
     })
     .catch((e) => {
@@ -164,5 +182,23 @@ export const followStore = (data) => async (dispatch) => {
     })
     .catch((e) => {
       console.log("failed follow store :: ", e.response);
+    });
+};
+
+export const getStoresCardList = (data) => async (dispatch) => {
+  const token = await getUserToken();
+  return makeAPIRequest({
+    method: "GET",
+    url: `${server.getStampCard}?${urlHelper.serializeURL(data)}`,
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((res) => {
+      console.log("store crad list :: ", res);
+      return res?.data;
+    })
+    .catch((e) => {
+      console.log("failed to get store card list :: ", e.response);
     });
 };

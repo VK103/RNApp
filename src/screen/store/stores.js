@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Header, Loader, SearchBox } from "../../common";
-import { homeMenuList } from "../../constant/menuList";
+import { alphabetList, homeMenuList } from "../../constant/menuList";
 import {
   color,
   fontFamily,
@@ -21,11 +21,6 @@ import {
 import { getStoreList } from "../../redux/actions/storeAction";
 
 import globleString from "../../language/localized";
-import store from "../../../store";
-import {
-  GET_ALL_STORE_LIST,
-  GET_ALL_STORE_LIST_BY_ALPHA,
-} from "../../redux/actions/types";
 const strings = globleString.strings;
 
 class Stores extends Component {
@@ -33,89 +28,31 @@ class Stores extends Component {
     super(props);
     this.state = {
       txtSearch: "",
-      alphabet: [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-      ],
       storesList: [],
     };
   }
 
-  //Life cycle methods
-  componentDidMount() {
-    const fromWhere = this?.props?.route?.params?.fromWhere;
-    if (fromWhere !== "setting") {
-      this.onCallGetStore();
-    }
-  }
-
   //API call methods
   onCallGetStore = () => {
-    const { alphabet, isRefresh } = this.state;
     try {
-      if (!isRefresh) this.setState({ isVisible: true });
       this.props
         .getStoreList()
         .then((res) => {
-          console.log("res: ", res?.data);
           this.setState({ isVisible: false, isRefresh: false });
-          let storeData = res?.data || [];
-          this.setState({ storeData: storeData });
-          store.dispatch({ type: GET_ALL_STORE_LIST, payload: storeData });
-          let storeArr = [];
-          for (const i of alphabet) {
-            let alpha = i.toUpperCase();
-            let alphaItems = storeData?.filter((el) => {
-              let storeAlpha = el?.storeName?.charAt(0)?.toUpperCase();
-              return storeAlpha === alpha ? true : false;
-            });
-            if (alphaItems?.length > 0)
-              storeArr.push({ title: alpha, data: alphaItems });
-          }
-          // this.setState({ storesList: storeArr });
-          store.dispatch({
-            type: GET_ALL_STORE_LIST_BY_ALPHA,
-            payload: storeArr,
-          });
         })
         .catch((e) => {
           this.setState({ isVisible: false, isRefresh: false });
           Alert.alert(strings.AppName, strings.SomethingWentWrong);
-          console.log("Error :: ", e);
         });
     } catch (error) {
       console.log("Catch Error :: ", error);
     }
   };
+
   filterStore = (text) => {
-    const { alphabet } = this.state;
     const { storeList } = this.props;
     let storeArr = [];
-    for (const i of alphabet) {
+    for (const i of alphabetList) {
       let alpha = i.toUpperCase();
       let alphaItems = storeList?.filter((el) => {
         let storeAlpha = el?.storeName?.charAt(0)?.toUpperCase();

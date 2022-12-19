@@ -31,6 +31,7 @@
     "moment": "^2.29.4",
     "react": "18.0.0",
     "react-native": "0.69.1",
+    "react-native-awesome-card-io": "^0.9.1",
     "react-native-device-info": "^10.0.0",
     "react-native-dotenv": "^3.3.1",
     "react-native-keyboard-manager": "^6.5.4-4",

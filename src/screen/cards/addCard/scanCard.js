@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { Button, Header } from "../../../common";
 import {
   color,
@@ -7,7 +13,11 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from "../../../constant/theme";
-
+import {
+  CardIOView,
+  CardIOUtilities,
+  CardIOModule,
+} from "react-native-awesome-card-io";
 import globleString from "../../../language/localized";
 const strings = globleString.strings;
 
@@ -19,23 +29,61 @@ class ScanCard extends Component {
     };
   }
 
+  componentWillMount() {
+    if (Platform.OS === "ios") {
+      CardIOUtilities.preload();
+    }
+  }
+
+  scanCard = () => {
+    CardIOModule.scanCard({
+      suppressManualEntry: true,
+      hideCardIOLogo: true,
+      usePaypalActionbarIcon: true,
+      suppressConfirmation: true,
+      scanInstructions: strings.CardDesc,
+    })
+      .then((card) => {
+        this.props.navigation.navigate("AddCardManually", {
+          details: this.props.route.params?.details,
+          cardDetails: card,
+        });
+        console.log("card data :: ", card);
+      })
+      .catch((e) => {
+        console.log("card data error :: ", e);
+      });
+  };
   render() {
     const { isCaptured } = this.state;
 
     return (
       <View style={styles.container}>
         <Header title={strings.AddCard} showBack showRightIcon={true} />
-        <View style={styles.cameraContainer}>
-          <View style={styles.subCameraContainer}></View>
+        {/* <View style={styles.cameraContainer}>
+          <View style={styles.subCameraContainer}>
+            <CardIOView
+              style={{
+                // flex: 1,
+                borderRadius: 10,
+                backgroundColor: "red",
+                height: 100,
+                width: 100,
+              }}
+            />
+          </View>
           <TouchableOpacity
             style={styles.buttonContainer}
             activeOpacity={0.7}
-            onPress={() => this.setState({ isCaptured: true })}
+            onPress={() => {
+              // this.setState({ isCaptured: true })
+              this.scanCard();
+            }}
           >
             <View style={styles.captureButton} />
           </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1, padding: responsiveWidth("4") }}>
+        </View> */}
+        <View style={{ flex: 0, padding: responsiveWidth("4") }}>
           {isCaptured ? (
             <View style={styles.optionButtonCOntainer}>
               <Button
@@ -60,10 +108,18 @@ class ScanCard extends Component {
           ) : (
             <>
               <Text style={styles.titleText}>{strings.AddYourCard}</Text>
-              <Text style={styles.basicTextStyle}>{strings.CardDesc}</Text>
+              {/* <Text style={styles.basicTextStyle}>{strings.CardDesc}</Text> */}
             </>
           )}
         </View>
+        <Button
+          title={"Scan card"}
+          container={styles.flatButtonContainer}
+          titleStyle={{ color: color.black }}
+          onPress={() => {
+            this.scanCard();
+          }}
+        />
         <Button
           title={strings.ManuallyCard}
           container={styles.flatButtonContainer}
@@ -71,6 +127,7 @@ class ScanCard extends Component {
           onPress={() =>
             this.props.navigation.navigate("AddCardManually", {
               details: this.props.route.params?.details,
+              cardDetails: {},
             })
           }
         />
@@ -131,7 +188,10 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     borderColor: color.lightgray,
     alignSelf: "center",
-    marginVertical: responsiveWidth("4"),
+    marginTop: responsiveWidth("4"),
+    width: responsiveWidth("80"),
+    alignItems: "center",
+    paddingVertical: 10,
   },
   optionButtonCOntainer: {
     flexDirection: "row",

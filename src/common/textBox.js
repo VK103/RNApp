@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import {
   color,
@@ -38,6 +39,7 @@ const TextBox = ({
   keyboardType,
   selCountry,
   maxLength,
+  onChangeCode,
 }) => {
   return (
     <View style={[styles.container, container]}>
@@ -64,14 +66,46 @@ const TextBox = ({
       </View>
       <View style={{ flexDirection: "row" }}>
         {isMobile ? (
-          <TouchableOpacity
-            style={styles.mobiletextBoxStyle}
-            onPress={onPressMobile}
-          >
-            <Text>
-              {selCountry?.countryCode ? `+${selCountry?.countryCode}` : ""}
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              style={[
+                styles.mobiletextBoxStyle,
+                { borderWidth: 0, paddingHorizontal: 0 },
+              ]}
+              onPress={onPressMobile}
+            >
+              {selCountry?.flagPath !== "" ? (
+                <Image
+                  source={{
+                    uri: selCountry?.flagPath || "",
+                  }}
+                  resizeMode="cover"
+                  style={[styles.flagStyle]}
+                />
+              ) : null}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.mobiletextBoxStyle,
+                {
+                  flexDirection: "row",
+                },
+              ]}
+              disabled={true}
+            >
+              <Text>{"+"}</Text>
+              <TextInput
+                value={mobileValue}
+                onChangeText={onChangeCode}
+                placeholderTextColor={placeholderColor || "lightgray"}
+                style={[
+                  styles.textBoxStyle,
+                  { borderWidth: 0, paddingHorizontal: 0 },
+                ]}
+                keyboardType={"phone-pad"}
+              />
+            </TouchableOpacity>
+          </>
         ) : null}
         <TextInput
           value={value}
@@ -142,5 +176,9 @@ const styles = StyleSheet.create({
     marginRight: responsiveWidth("1"),
     color: color.black,
     fontSize: fontSize.regular,
+  },
+  flagStyle: {
+    height: responsiveWidth("8"),
+    width: responsiveWidth("10"),
   },
 });

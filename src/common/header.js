@@ -14,6 +14,7 @@ import { color, fontSize, responsiveWidth } from "../constant/theme";
 import { AppIcon } from "./appIcon";
 import Modal from "react-native-modal";
 import { homeMenuList } from "../constant/menuList";
+import Share from "react-native-share";
 
 const Header = ({
   title,
@@ -48,11 +49,22 @@ const Header = ({
           title: data?.title,
         });
       }
-    } else if (data?.id == 5) {
-      navigate("Stores");
+    } else if (data?.id == 5 || data?.id == 1) {
+      // navigate("Stores", {
+      //   screen: "StoreSettings",
+      //   params: { title: data?.title },
+      // });
       navigate("StoreSettings", {
-        params: { title: data?.title },
+        title: data?.title,
       });
+    } else if (data?.id == 4) {
+      Share.open({ message: "BMLY" })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          err && console.log(err);
+        });
     }
   };
 
@@ -176,7 +188,9 @@ const Header = ({
                       <TouchableOpacity
                         key={index.toString()}
                         onPress={() => {
-                          setShowMenu(false);
+                          if (i?.id !== 4) {
+                            setShowMenu(false);
+                          }
                           setTimeout(() => {
                             onPressSpecificItem(i);
                           }, 80);

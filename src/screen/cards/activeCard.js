@@ -31,6 +31,7 @@ class ActiveCards extends Component {
       activeStampList: [
         // { title: "Active sport" }, { title: "CoffeeLover" }
       ],
+      searchedList: [],
     };
   }
 
@@ -90,16 +91,34 @@ class ActiveCards extends Component {
     }
   };
 
+  onHandleSearch = (txt) => {
+    const { details } = this.props.route.params;
+    const { txtSearch, activeCardsList, activeStampList } = this.state;
+    this.setState({ txtSearch: txt });
+
+    const newData = (
+      details.id === 1 ? activeCardsList : activeStampList
+    ).filter((item) => {
+      const itemData = item ? item?.cardName?.toUpperCase() : "".toUpperCase();
+      const textData = txt.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({ searchedList: newData });
+  };
+
   //Render Methods
   render() {
     const { details } = this.props.route.params;
-    const { txtSearch, activeCardsList, activeStampList } = this.state;
+    const { txtSearch, activeCardsList, activeStampList, searchedList } =
+      this.state;
     return (
       <View style={styles.container}>
         <Header title={details.title} showBack showRightIcon />
         <SearchBox
           value={txtSearch}
-          onChangeText={(txt) => this.setState({ txtSearch: txt })}
+          onChangeText={(txt) => {
+            this.onHandleSearch(txt);
+          }}
         />
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <Text style={styles.titleTextStyle}>
@@ -107,28 +126,32 @@ class ActiveCards extends Component {
               ? strings.ActiveLoyaltyCard
               : strings.ActiveStampCard}
           </Text>
-          {(details.id === 1 ? activeCardsList : activeStampList).map(
-            (item, index) => {
-              return (
-                <TouchableOpacity
-                  style={styles.subContainer}
-                  onPress={() => this.onPressCard(item)}
-                >
-                  <Text style={styles.titleStyle}>
-                    {details.id === 1 ? item?.cardName : item.cardName || ""}
-                  </Text>
-                  <AppIcon
-                    name={"chevron-right"}
-                    size={responsiveWidth("6")}
-                    type={"material-community"}
-                    style={{
-                      left: responsiveWidth("2"),
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            }
-          )}
+          {(txtSearch.length > 0
+            ? searchedList
+            : details.id === 1
+            ? activeCardsList
+            : activeStampList
+          ).map((item, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.subContainer}
+                onPress={() => this.onPressCard(item)}
+                disabled={details.id === 1}
+              >
+                <Text style={styles.titleStyle}>
+                  {details.id === 1 ? item?.cardName : item.cardName || ""}
+                </Text>
+                <AppIcon
+                  name={"chevron-right"}
+                  size={responsiveWidth("6")}
+                  type={"material-community"}
+                  style={{
+                    left: responsiveWidth("2"),
+                  }}
+                />
+              </TouchableOpacity>
+            );
+          })}
           {details?.id === 1 ? (
             <View style={styles.BottomContainer}>
               <TouchableOpacity

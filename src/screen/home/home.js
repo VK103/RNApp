@@ -17,10 +17,12 @@ import { AppIcon, Header } from "../../common";
 
 import { connect } from "react-redux";
 import { getAllCampaigns } from "../../redux/actions/inboxAction";
-
+import { getStoreList } from "../../redux/actions/storeAction";
 import globleString from "../../language/localized";
 import moment from "moment";
 import { homeMenuList } from "../../constant/menuList";
+import AsyncStorage from "@react-native-community/async-storage";
+import { asyncKey } from "../../constant/keys";
 const strings = globleString.strings;
 
 class Home extends Component {
@@ -34,14 +36,19 @@ class Home extends Component {
 
   componentDidMount() {
     this.onCallGetCampaignList();
+    this.props.getStoreList();
   }
 
   //API call methods
-  onCallGetCampaignList = () => {
+  onCallGetCampaignList = async () => {
     let data = this?.props?.route?.params;
+    let phoneStr = await AsyncStorage.getItem(asyncKey.USER_PHONE);
+    let phoneData = JSON.parse(phoneStr);
     try {
       this.setState({ isVisible: true });
-      let params = {};
+      let params = {
+        peoplesubscriberId: phoneData?.peopleSubscriberId || "",
+      };
       this.props
         .getAllCampaigns(params)
         .then((res) => {
@@ -101,7 +108,11 @@ class Home extends Component {
                 activeOpacity={0.6}
               >
                 <Text style={styles.dateTextStyle}>
-                  {moment(item.lastUpdatedDateTime).format("DD/MM/YYYY")}
+                  {moment(
+                    item.lastUpdatedDateTime,
+                    "YYYY-MM-DD H:mm:SS Z"
+                  ).format("DD/MM/YYYY")}
+                  {/* {item.lastUpdatedDateTime} */}
                 </Text>
                 <View style={styles.subContainer}>
                   <Text style={styles.titleStyle}>{item.storeName}</Text>
@@ -134,6 +145,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getAllCampaigns,
+  getStoreList,
 })(Home);
 
 const styles = StyleSheet.create({

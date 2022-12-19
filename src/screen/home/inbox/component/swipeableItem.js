@@ -90,9 +90,10 @@ const SwipeableItem = ({
                 color: color.gray2,
               },
             ]}
-          >{`Expire: ${moment(data?.expirationDate).format(
-            "DD/MM/YYYY"
-          )}`}</Text>
+          >{`Expire: ${moment(
+            data?.expirationDate,
+            "YYYY-MM-DD H:mm:SS Z"
+          ).format("DD/MM/YYYY")}`}</Text>
         </View>
       </SwipeRow>
     </View>

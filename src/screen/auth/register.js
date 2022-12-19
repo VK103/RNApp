@@ -50,6 +50,7 @@ class Login extends Component {
       txtCountryCode: "",
       isAgree: false,
       showModal: false,
+      selCountry: {},
     };
   }
 
@@ -65,7 +66,14 @@ class Login extends Component {
   onCallGetAllCountry = () => {
     this.props
       .getAllCountriesList()
-      .then(() => this.setState({ isVisible: false }))
+      .then((res) =>
+        this.setState({
+          isVisible: false,
+          selCountry: res[0],
+          txtCountryCode: res[0]?.countryCode,
+          selCountryIndex: 0,
+        })
+      )
       .catch(() => this.setState({ isVisible: false }));
   };
   onPressLogin = () => {
@@ -144,6 +152,7 @@ class Login extends Component {
       selCountryIndex,
       isVisible,
       safeAreaInsets,
+      selCountry,
     } = this.state;
     const { allCountriesList } = this.props;
     if (
@@ -158,9 +167,6 @@ class Login extends Component {
     //   "allCountriesList[selCountryIndex]: ",
     //   allCountriesList[selCountryIndex]
     // );
-    let selCountry =
-      allCountriesList[selCountryIndex > -1 ? selCountryIndex : 0];
-    console.log("selCountry: ", selCountry);
     return (
       <View style={styles.container}>
         <Header title={strings.AppName} />
@@ -184,6 +190,19 @@ class Login extends Component {
             value={txtMobile}
             onChangeText={(txt) => {
               this.setState({ txtMobile: txt });
+            }}
+            onChangeCode={(txt) => {
+              this.setState({ txtCountryCode: txt });
+              const indexOfCountry = allCountriesList.findIndex(
+                (i) => i?.countryCode === txt
+              );
+              this.setState({
+                selCountryIndex: indexOfCountry > -1 ? indexOfCountry : -1,
+                selCountry:
+                  indexOfCountry > -1
+                    ? allCountriesList[indexOfCountry]
+                    : { flagPath: "" },
+              });
             }}
             isMobile={true}
             mobileValue={txtCountryCode}
@@ -242,6 +261,9 @@ class Login extends Component {
                           this.setState({
                             selCountryIndex: index,
                             showModal: false,
+                            selCountry: allCountriesList[index],
+                            txtCountryCode:
+                              allCountriesList[index]?.countryCode,
                           })
                         }
                         style={{

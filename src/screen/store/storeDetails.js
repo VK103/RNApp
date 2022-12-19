@@ -9,6 +9,7 @@ import {
   Image,
   Linking,
   Alert,
+  Platform,
 } from "react-native";
 import { AppIcon, Button, Header, Loader } from "../../common";
 import { color, fontSize, responsiveWidth } from "../../constant/theme";
@@ -19,6 +20,7 @@ import {
   addStoreRate,
   getStoreCampaign,
   followStore,
+  getStoresCardList,
 } from "../../redux/actions/storeAction";
 
 import globleString from "../../language/localized";
@@ -90,8 +92,8 @@ class StoreDetails extends Component {
         { day: "Sunday", time: "Closed" },
       ],
       cardsList: [
-        // { title: "Loyalty cards", iconName: icons.icLoyaltyCards },
-        // { title: "Stamp cards", iconName: icons.icStampCard },
+        { title: "Loyalty cards", iconName: icons.icLoyaltyCards },
+        { title: "Stamp cards", iconName: icons.icStampCard },
       ],
       showTimeList: false,
       showRating: false,
@@ -103,6 +105,7 @@ class StoreDetails extends Component {
   componentDidMount() {
     this.onCallGetStoreDetail();
     this.onCallGetStoreCampaign();
+    this.onCallGetCardList();
   }
 
   //Button Click Events
@@ -239,6 +242,18 @@ class StoreDetails extends Component {
     } catch (error) {
       console.log("Catch Error :: ", error);
     }
+  };
+  onCallGetCardList = async () => {
+    const { details } = this.props.route.params;
+    this.props
+      .getStoresCardList({ storeId: details?.storeId })
+      .then((list) => {
+        console.log(("list :: ", list));
+        this.setState({ cardsList: list });
+      })
+      .catch((e) => {
+        console.log("Erroe :: ", e);
+      });
   };
 
   //Render Methods
@@ -463,6 +478,19 @@ class StoreDetails extends Component {
               <ActionButton
                 title={strings.Directions}
                 source={icons.icDirection}
+                onPress={async () => {
+                  const destination = encodeURIComponent(
+                    `${storeData?.storeButtons?.address} ${storeData?.storeButtons?.city}, ${storeData?.storeButtons?.state},${storeData?.storeButtons?.country}, ${storeData?.storeButtons?.zip}`
+                  );
+                  const provider = Platform.OS === "ios" ? "apple" : "google";
+                  const link = `http://maps.${provider}.com/?daddr=${destination}`;
+                  try {
+                    const supported = await Linking.canOpenURL(link);
+                    if (supported) Linking.openURL(link);
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
               />
             ) : null}
             {storeData?.storeButtons?.isDisplayWebSiteVisible ? (
@@ -550,8 +578,9 @@ class StoreDetails extends Component {
                 return (
                   <CardItem
                     key={index.toString()}
-                    title={item.title}
-                    source={item.iconName}
+                    title={item?.cardName || ""}
+                    source={item?.icon}
+                    isURL={true}
                   />
                 );
               })
@@ -574,6 +603,7 @@ export default connect(mapStateToProps, {
   addStoreRate,
   getStoreCampaign,
   followStore,
+  getStoresCardList,
 })(StoreDetails);
 
 const styles = StyleSheet.create({

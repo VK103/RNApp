@@ -114,6 +114,7 @@ function MyInboxTab() {
       <Stack.Screen name="Inbox" component={Home} />
       <Stack.Screen name="InboxList" component={InboxList} />
       <Stack.Screen name="StampURL" component={StampURL} />
+      <Stack.Screen name="StoreSettings" component={StoreSettings} />
     </Stack.Navigator>
   );
 }
@@ -145,6 +146,7 @@ function MyCardsTab() {
       <Stack.Screen name="AddCardManually" component={AddCardManually} />
       <Stack.Screen name="CardDetails" component={CardDetails} />
       <Stack.Screen name="StampURL" component={StampURL} />
+      <Stack.Screen name="StoreSettings" component={StoreSettings} />
     </Stack.Navigator>
   );
 }
@@ -165,6 +167,8 @@ function MySettingsTab() {
       <Stack.Screen name="Contact" component={Contact} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="Help" component={Help} />
+      <Stack.Screen name="StoreSettings" component={StoreSettings} />
+      <Stack.Screen name="InboxList" component={InboxList} />
     </Stack.Navigator>
   );
 }

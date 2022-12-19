@@ -32,7 +32,35 @@ class AddCardManually extends Component {
 
   componentDidMount() {
     console.log("props: ", this?.props);
+    let details = this.props.route.params?.cardDetails;
+    if (Object.keys(details)?.length > 0) {
+      let exDate = "";
+      if (details?.expiryMonth != null && details?.expiryYear != null) {
+        const month =
+          details?.expiryMonth?.length > 1
+            ? details?.expiryMonth
+            : `0${details?.expiryMonth}`;
+        exDate = `${month}/${details?.expiryYear}`;
+      }
+      this.setState({
+        txtCardName: details?.cardType || "",
+        txtCardHolderName: details?.cardholderName || "",
+        txtCardNumber: this.formatCardNumber(details?.cardNumber) || "",
+        txtCardDate: exDate,
+      });
+    }
   }
+
+  formatCardNumber = (value) => {
+    const regex = /^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/g;
+    const onlyNumbers = value.replace(/[^\d]/g, "");
+
+    const data = onlyNumbers.replace(regex, (regex, $1, $2, $3, $4) =>
+      [$1, $2, $3, $4].filter((group) => !!group).join(" ")
+    );
+    console.log(data);
+    return data;
+  };
 
   //Button Click Events
   onPressAdd = () => {
